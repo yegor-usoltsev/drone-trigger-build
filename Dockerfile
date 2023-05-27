@@ -6,4 +6,4 @@ RUN go build
 FROM alpine:latest
 WORKDIR /app
 COPY --from=build /app/drone-trigger-build .
-CMD ["./drone-trigger-build"]
+CMD ["/app/drone-trigger-build"]
