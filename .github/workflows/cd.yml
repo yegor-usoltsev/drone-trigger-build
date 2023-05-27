@@ -53,3 +53,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
+      - uses: peter-evans/dockerhub-description@v3
+        with:
+          username: yusoltsev
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: yusoltsev/drone-trigger-build
