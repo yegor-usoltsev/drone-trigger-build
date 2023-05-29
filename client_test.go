@@ -7,6 +7,8 @@ import (
 	"net/http/httptest"
 	"reflect"
 	"testing"
+
+	"github.com/drone/drone-go/drone"
 )
 
 func TestBuildCreate(t *testing.T) {
@@ -15,7 +17,7 @@ func TestBuildCreate(t *testing.T) {
 	repoName := "backend"
 	paramKey := "key1"
 	paramValue := "value1,value2"
-	expected := &Build{ID: 42}
+	expected := &drone.Build{ID: 42}
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost &&
@@ -30,7 +32,7 @@ func TestBuildCreate(t *testing.T) {
 	}))
 	defer server.Close()
 	droneClient := NewDroneClient(server.URL, token)
-	actual, err := droneClient.BuildCreate(repoOwner, repoName, map[string]string{paramKey: paramValue})
+	actual, err := droneClient.BuildCreate(repoOwner, repoName, "", "", map[string]string{paramKey: paramValue})
 
 	if err != nil {
 		t.Error(err)
