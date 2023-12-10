@@ -13,7 +13,8 @@
       "description": "Update Go version",
       "fileMatch": ["(^|/)\\.github/workflows/[^/]+\\.ya?ml$"],
       "matchStrings": ["go-version: \"(?<currentValue>.+?)\"\\s+# renovate"],
-      "datasourceTemplate": "golang-version"
+      "datasourceTemplate": "golang-version",
+      "depNameTemplate": "go"
     }
   ],
   "packageRules": [
