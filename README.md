@@ -4,6 +4,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/yegor-usoltsev/drone-trigger-build?sort=semver)](https://github.com/yegor-usoltsev/drone-trigger-build/releases)
 [![Docker Image (docker.io)](https://img.shields.io/docker/v/yusoltsev/drone-trigger-build?label=docker.io&sort=semver)](https://hub.docker.com/r/yusoltsev/drone-trigger-build)
 [![Docker Image (ghcr.io)](https://img.shields.io/docker/v/yusoltsev/drone-trigger-build?label=ghcr.io&sort=semver)](https://github.com/yegor-usoltsev/drone-trigger-build/pkgs/container/drone-trigger-build)
+[![Docker Image Size](https://img.shields.io/docker/image-size/yusoltsev/drone-trigger-build?sort=semver&arch=amd64)](https://hub.docker.com/r/yusoltsev/drone-trigger-build/tags)
 
 Drone CI / CD plugin to trigger builds for a list of downstream repositories.
 
