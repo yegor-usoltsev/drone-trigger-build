@@ -31,7 +31,7 @@ func TestBuildCreate(t *testing.T) {
 		}
 		w.WriteHeader(http.StatusInternalServerError)
 	}))
-	defer server.Close()
+	t.Cleanup(server.Close)
 	droneClient := NewDroneClient(server.URL, token)
 	actual, err := droneClient.BuildCreate(repoOwner, repoName, "", "", map[string]string{paramKey: paramValue})
 

@@ -1,6 +1,7 @@
 # drone-trigger-build
 
 [![Build Status](https://github.com/yegor-usoltsev/drone-trigger-build/actions/workflows/ci.yml/badge.svg)](https://github.com/yegor-usoltsev/drone-trigger-build/actions)
+[![Codecov](https://codecov.io/github/yegor-usoltsev/drone-trigger-build/graph/badge.svg?token=W3C1MTB6S4)](https://codecov.io/github/yegor-usoltsev/drone-trigger-build)
 [![GitHub Release](https://img.shields.io/github/v/release/yegor-usoltsev/drone-trigger-build?sort=semver)](https://github.com/yegor-usoltsev/drone-trigger-build/releases)
 [![Docker Image (docker.io)](https://img.shields.io/docker/v/yusoltsev/drone-trigger-build?label=docker.io&sort=semver)](https://hub.docker.com/r/yusoltsev/drone-trigger-build)
 [![Docker Image (ghcr.io)](https://img.shields.io/docker/v/yusoltsev/drone-trigger-build?label=ghcr.io&sort=semver)](https://github.com/yegor-usoltsev/drone-trigger-build/pkgs/container/drone-trigger-build)
