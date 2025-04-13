@@ -2,24 +2,24 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 )
 
 func main() {
 	settings := NewSettingsFromEnv()
-	settingsJson, err := json.MarshalIndent(settings, "", "  ")
+	settingsJSON, err := json.Marshal(settings)
 	if err != nil {
-		panic(err)
+		log.Fatalf("failed to marshal settings: %v", err)
 	}
+	log.Printf("parsed settings: %s", settingsJSON)
 
-	fmt.Printf("Parsed settings: %s\n", settingsJson)
 	droneClient := NewDroneClient(settings.Server, settings.Token)
 
 	for _, repo := range settings.Repositories {
 		build, err := droneClient.BuildCreate(repo.Owner, repo.Name, "", "", settings.Params)
 		if err != nil {
-			panic(fmt.Sprintf("Cannot create a new build for repository %s/%s", repo.Owner, repo.Name))
+			log.Fatalf("failed to create build for repository %s/%s: %v", repo.Owner, repo.Name, err)
 		}
-		fmt.Printf("Successfully created a new build %d for repository %s/%s\n", build.ID, repo.Owner, repo.Name)
+		log.Printf("created build %d for repository %s/%s", build.ID, repo.Owner, repo.Name)
 	}
 }

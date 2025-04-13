@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"strings"
 )
@@ -32,7 +31,7 @@ func NewSettingsFromEnv() Settings {
 func mustGetenv(key string) string {
 	value := strings.TrimSpace(os.Getenv(key))
 	if value == "" {
-		panic(fmt.Sprintf("Environment variable %s is required", key))
+		panic("missing required environment variable: " + key)
 	}
 	return value
 }
@@ -55,7 +54,7 @@ func parseRepositories(str string) []Repository {
 		repositories = append(repositories, Repository{Owner: owner, Name: name})
 	}
 	if len(repositories) == 0 {
-		panic("You must specify at least 1 repository to trigger")
+		panic("no valid repositories specified in PLUGIN_REPOSITORIES")
 	}
 	return repositories
 }

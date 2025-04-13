@@ -12,6 +12,7 @@ import (
 )
 
 func TestBuildCreate(t *testing.T) {
+	t.Parallel()
 	token := "DroneExampleAccessToken"
 	repoOwner := "example"
 	repoName := "backend"
@@ -22,13 +23,13 @@ func TestBuildCreate(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost &&
 			r.URL.Path == fmt.Sprintf("/api/repos/%s/%s/builds", repoOwner, repoName) &&
-			r.Header.Get("Authorization") == fmt.Sprintf("Bearer %s", token) &&
+			r.Header.Get("Authorization") == "Bearer "+token &&
 			r.URL.Query().Get(paramKey) == paramValue {
-			w.WriteHeader(200)
+			w.WriteHeader(http.StatusOK)
 			_ = json.NewEncoder(w).Encode(expected)
 			return
 		}
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 	}))
 	defer server.Close()
 	droneClient := NewDroneClient(server.URL, token)
