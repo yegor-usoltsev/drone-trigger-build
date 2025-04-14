@@ -32,6 +32,16 @@ linters:
           - exhaustruct
           - forcetypeassert
           - wrapcheck
+  settings:
+    forbidigo:
+      forbid:
+        - pattern: "^(fmt\\.Print(|f|ln)|print|println)$"
+        - pattern: "^(log\\.Print(|f|ln)|Fatal(|f|ln)|Panic(|f|ln))$"
+    sloglint:
+      kv-only: true
+      static-msg: true
+      msg-style: lowercased
+      key-naming-case: snake
 
 formatters:
   enable:

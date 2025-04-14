@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-const EnvPrefix = "PLUGIN_"
+const envPrefix = "PLUGIN_"
 
 type Settings struct {
 	Server       string            `json:"server"`       // Drone server url
@@ -21,10 +21,10 @@ type Repository struct {
 
 func NewSettingsFromEnv() Settings {
 	return Settings{
-		Server:       mustGetenv(EnvPrefix + "SERVER"),
-		Token:        mustGetenv(EnvPrefix + "TOKEN"),
-		Repositories: parseRepositories(mustGetenv(EnvPrefix + "REPOSITORIES")),
-		Params:       parseParams(mustGetenv(EnvPrefix + "PARAMS")),
+		Server:       mustGetenv(envPrefix + "SERVER"),
+		Token:        mustGetenv(envPrefix + "TOKEN"),
+		Repositories: parseRepositories(mustGetenv(envPrefix + "REPOSITORIES")),
+		Params:       parseParams(mustGetenv(envPrefix + "PARAMS")),
 	}
 }
 
@@ -54,7 +54,7 @@ func parseRepositories(str string) []Repository {
 		repositories = append(repositories, Repository{Owner: owner, Name: name})
 	}
 	if len(repositories) == 0 {
-		panic("no valid repositories specified in PLUGIN_REPOSITORIES")
+		panic("no valid repositories specified")
 	}
 	return repositories
 }

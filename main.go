@@ -1,25 +1,24 @@
 package main
 
 import (
-	"encoding/json"
-	"log"
+	"log/slog"
+	"os"
 )
 
 func main() {
+	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, nil)))
+
 	settings := NewSettingsFromEnv()
-	settingsJSON, err := json.Marshal(settings)
-	if err != nil {
-		log.Fatalf("failed to marshal settings: %v", err)
-	}
-	log.Printf("parsed settings: %s", settingsJSON)
+	slog.Info("parsed settings", "settings", settings)
 
 	droneClient := NewDroneClient(settings.Server, settings.Token)
 
 	for _, repo := range settings.Repositories {
 		build, err := droneClient.BuildCreate(repo.Owner, repo.Name, "", "", settings.Params)
 		if err != nil {
-			log.Fatalf("failed to create build for repository %s/%s: %v", repo.Owner, repo.Name, err)
+			slog.Error("failed to create build", "owner", repo.Owner, "repo", repo.Name, "error", err)
+			continue
 		}
-		log.Printf("created build %d for repository %s/%s", build.ID, repo.Owner, repo.Name)
+		slog.Info("created build", "owner", repo.Owner, "repo", repo.Name, "build_id", build.ID)
 	}
 }
