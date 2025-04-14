@@ -7,6 +7,12 @@ import (
 
 func main() {
 	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, nil)))
+	defer func() {
+		if r := recover(); r != nil {
+			slog.Error("panic", "error", r)
+			os.Exit(1)
+		}
+	}()
 
 	settings := NewSettingsFromEnv()
 	slog.Info("parsed settings", "settings", settings)
