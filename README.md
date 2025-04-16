@@ -58,12 +58,6 @@ $ docker run --rm \
 This application is delivered as a multi-platform Docker image and is available for download from two image registries
 of choice: [yusoltsev/drone-trigger-build](https://hub.docker.com/r/yusoltsev/drone-trigger-build)
 and [ghcr.io/yegor-usoltsev/drone-trigger-build](https://github.com/yegor-usoltsev/drone-trigger-build/pkgs/container/drone-trigger-build).
-Images are tagged as follows:
-
-- `latest` - Tracks the latest released version, which is typically tagged with a version number. This tag is
-  recommended for most users as it provides the most stable version.
-- `edge` - Tracks the latest commits to the `main` branch.
-- `vX.Y.Z` (e.g., `v1.2.3`) - Represents a specific released version.
 
 ## Versioning
 
