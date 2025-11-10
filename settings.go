@@ -38,7 +38,7 @@ func mustGetenv(key string) string {
 
 func parseRepositories(str string) []Repository {
 	repositories := make([]Repository, 0)
-	for _, slug := range strings.Split(str, ",") {
+	for slug := range strings.SplitSeq(str, ",") {
 		ownerAndName := strings.Split(slug, "/")
 		if len(ownerAndName) != 2 {
 			continue
@@ -62,7 +62,7 @@ func parseRepositories(str string) []Repository {
 func parseParams(str string) map[string]string {
 	lastKey := ""
 	keyToValues := make(map[string][]string)
-	for _, part := range strings.Split(str, ",") {
+	for part := range strings.SplitSeq(str, ",") {
 		keyAndValue := strings.Split(part, "=")
 		if len(keyAndValue) == 2 {
 			lastKey = strings.TrimSpace(keyAndValue[0])
