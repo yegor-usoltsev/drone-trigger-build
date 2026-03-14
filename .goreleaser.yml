@@ -66,15 +66,5 @@ release:
   name_template: "v{{ .Version }}"
   footer: |
     ## Docker images
-
-    Docker Hub:
-    - `yusoltsev/drone-trigger-build:v{{ .Version }}`
-    - `yusoltsev/drone-trigger-build:v{{ .Major }}.{{ .Minor }}`
-    - `yusoltsev/drone-trigger-build:v{{ .Major }}`
-    - `yusoltsev/drone-trigger-build:latest`
-
-    GHCR:
-    - `ghcr.io/yegor-usoltsev/drone-trigger-build:v{{ .Version }}`
-    - `ghcr.io/yegor-usoltsev/drone-trigger-build:v{{ .Major }}.{{ .Minor }}`
-    - `ghcr.io/yegor-usoltsev/drone-trigger-build:v{{ .Major }}`
-    - `ghcr.io/yegor-usoltsev/drone-trigger-build:latest`
+    - [`yusoltsev/drone-trigger-build:{{ .Version }}`](https://hub.docker.com/r/yusoltsev/drone-trigger-build/tags?name={{ .Version }})
+    - [`ghcr.io/yegor-usoltsev/drone-trigger-build:{{ .Version }}`](https://github.com/yegor-usoltsev/drone-trigger-build/pkgs/container/drone-trigger-build)
