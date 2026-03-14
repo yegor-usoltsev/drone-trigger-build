@@ -6,15 +6,17 @@ import (
 )
 
 func main() {
-	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, nil)))
-	defer func() {
-		if r := recover(); r != nil {
-			slog.Error("panic", "error", r)
-			os.Exit(1) //nolint:forbidigo
-		}
-	}()
+	os.Exit(run()) //nolint:forbidigo // main entry point requires os.Exit
+}
 
-	settings := NewSettingsFromEnv()
+func run() int {
+	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, nil)))
+
+	settings, err := NewSettingsFromEnv()
+	if err != nil {
+		slog.Error("failed to load settings", "err", err)
+		return 1
+	}
 	slog.Info("parsed settings", "settings", settings)
 
 	droneClient := NewDroneClient(settings.Server, settings.Token)
@@ -27,4 +29,6 @@ func main() {
 		}
 		slog.Info("created build", "owner", repo.Owner, "repo", repo.Name, "build_id", build.ID)
 	}
+
+	return 0
 }

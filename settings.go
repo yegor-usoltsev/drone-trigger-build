@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strings"
 )
@@ -19,24 +20,44 @@ type Repository struct {
 	Name  string `json:"name"`
 }
 
-func NewSettingsFromEnv() Settings {
-	return Settings{
-		Server:       mustGetenv(envPrefix + "SERVER"),
-		Token:        mustGetenv(envPrefix + "TOKEN"),
-		Repositories: parseRepositories(mustGetenv(envPrefix + "REPOSITORIES")),
-		Params:       parseParams(mustGetenv(envPrefix + "PARAMS")),
+func NewSettingsFromEnv() (Settings, error) {
+	server, err := getenv(envPrefix + "SERVER")
+	if err != nil {
+		return Settings{}, err
 	}
+	token, err := getenv(envPrefix + "TOKEN")
+	if err != nil {
+		return Settings{}, err
+	}
+	reposStr, err := getenv(envPrefix + "REPOSITORIES")
+	if err != nil {
+		return Settings{}, err
+	}
+	repos, err := parseRepositories(reposStr)
+	if err != nil {
+		return Settings{}, err
+	}
+	paramsStr, err := getenv(envPrefix + "PARAMS")
+	if err != nil {
+		return Settings{}, err
+	}
+	return Settings{
+		Server:       server,
+		Token:        token,
+		Repositories: repos,
+		Params:       parseParams(paramsStr),
+	}, nil
 }
 
-func mustGetenv(key string) string {
+func getenv(key string) (string, error) {
 	value := strings.TrimSpace(os.Getenv(key))
 	if value == "" {
-		panic("missing required environment variable: " + key)
+		return "", fmt.Errorf("missing required environment variable: %s", key)
 	}
-	return value
+	return value, nil
 }
 
-func parseRepositories(str string) []Repository {
+func parseRepositories(str string) ([]Repository, error) {
 	repositories := make([]Repository, 0)
 	for slug := range strings.SplitSeq(str, ",") {
 		ownerAndName := strings.Split(slug, "/")
@@ -54,9 +75,9 @@ func parseRepositories(str string) []Repository {
 		repositories = append(repositories, Repository{Owner: owner, Name: name})
 	}
 	if len(repositories) == 0 {
-		panic("no valid repositories specified")
+		return nil, fmt.Errorf("no valid repositories specified")
 	}
-	return repositories
+	return repositories, nil
 }
 
 func parseParams(str string) map[string]string {

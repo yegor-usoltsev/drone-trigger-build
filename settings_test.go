@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestNewSettingsFromEnv(t *testing.T) {
@@ -18,25 +19,30 @@ func TestNewSettingsFromEnv(t *testing.T) {
 	t.Setenv("PLUGIN_TOKEN", " DroneExampleAccessToken ")
 	t.Setenv("PLUGIN_REPOSITORIES", " example / backend , example / frontend , ignore / , / , ignore , , ")
 	t.Setenv("PLUGIN_PARAMS", " key1 = value1 , key2 = value2 , ignore = , , = ignore , , key2 = , value3 ")
-	actual := NewSettingsFromEnv()
+	actual, err := NewSettingsFromEnv()
 
+	require.NoError(t, err)
 	assert.Equal(t, expected, actual)
 }
 
-func TestMustGetenv(t *testing.T) {
+func TestGetenv(t *testing.T) {
 	t.Run("existing variable", func(t *testing.T) {
 		t.Setenv("TEST_VAR", "test_value")
-		assert.Equal(t, "test_value", mustGetenv("TEST_VAR"))
+		val, err := getenv("TEST_VAR")
+		require.NoError(t, err)
+		assert.Equal(t, "test_value", val)
 	})
 
 	t.Run("empty variable", func(t *testing.T) {
 		t.Setenv("TEST_VAR", "")
-		assert.Panics(t, func() { mustGetenv("TEST_VAR") })
+		_, err := getenv("TEST_VAR")
+		assert.Error(t, err)
 	})
 
 	t.Run("non-existent variable", func(t *testing.T) {
 		t.Parallel()
-		assert.Panics(t, func() { mustGetenv("DOES_NOT_EXIST") })
+		_, err := getenv("DOES_NOT_EXIST")
+		assert.Error(t, err)
 	})
 }
 
@@ -45,25 +51,29 @@ func TestParseRepositories(t *testing.T) {
 		t.Parallel()
 		given := "owner1/repo1,owner2/repo2"
 		expected := []Repository{{Owner: "owner1", Name: "repo1"}, {Owner: "owner2", Name: "repo2"}}
-		actual := parseRepositories(given)
+		actual, err := parseRepositories(given)
+		require.NoError(t, err)
 		assert.Equal(t, expected, actual)
 	})
 
 	t.Run("empty input", func(t *testing.T) {
 		t.Parallel()
-		assert.Panics(t, func() { parseRepositories("") })
+		_, err := parseRepositories("")
+		assert.Error(t, err)
 	})
 
 	t.Run("invalid format", func(t *testing.T) {
 		t.Parallel()
-		assert.Panics(t, func() { parseRepositories("invalid") })
+		_, err := parseRepositories("invalid")
+		assert.Error(t, err)
 	})
 
 	t.Run("skip invalid entries", func(t *testing.T) {
 		t.Parallel()
 		given := "owner1/repo1,invalid,owner2/repo2"
 		expected := []Repository{{Owner: "owner1", Name: "repo1"}, {Owner: "owner2", Name: "repo2"}}
-		actual := parseRepositories(given)
+		actual, err := parseRepositories(given)
+		require.NoError(t, err)
 		assert.Equal(t, expected, actual)
 	})
 }
