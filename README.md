@@ -53,6 +53,19 @@ $ docker run --rm \
   yusoltsev/drone-trigger-build
 ```
 
+## Configuration
+
+Drone passes each `settings` key to the plugin as a `PLUGIN_*` environment variable. All four are required; the plugin exits with an error when one is missing or empty.
+
+| Setting        | Variable              | Description                                                                              |
+| -------------- | --------------------- | ---------------------------------------------------------------------------------------- |
+| `server`       | `PLUGIN_SERVER`       | Drone server URL                                                                         |
+| `token`        | `PLUGIN_TOKEN`        | Drone access token            |
+| `repositories` | `PLUGIN_REPOSITORIES` | Comma-separated `owner/name` slugs; invalid entries are skipped, at least one must remain |
+| `params`       | `PLUGIN_PARAMS`       | Comma-separated `KEY=VALUE` pairs; a part without `=` extends the previous value         |
+
+A failed build request for one repository is logged and does not stop the others or change the exit code.
+
 ## Docker Images
 
 This application is delivered as a multi-platform Docker image and is available for download from two image registries
