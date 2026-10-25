@@ -66,5 +66,5 @@ release:
   name_template: "v{{ .Version }}"
   footer: |
     ## Docker images
-    - [`yusoltsev/drone-trigger-build:{{ .Version }}`](https://hub.docker.com/r/yusoltsev/drone-trigger-build/tags?name={{ .Version }})
-    - [`ghcr.io/yegor-usoltsev/drone-trigger-build:{{ .Version }}`](https://github.com/yegor-usoltsev/drone-trigger-build/pkgs/container/drone-trigger-build)
+    - [`yusoltsev/drone-trigger-build:v{{ .Version }}`](https://hub.docker.com/r/yusoltsev/drone-trigger-build/tags?name=v{{ .Version }})
+    - [`ghcr.io/yegor-usoltsev/drone-trigger-build:v{{ .Version }}`](https://github.com/yegor-usoltsev/drone-trigger-build/pkgs/container/drone-trigger-build)
